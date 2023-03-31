@@ -7,4 +7,6 @@ target 'ToDoList' do
 
   # Pods for ToDoList
   pod 'SnapKit'
+  pod 'lottie-ios'
+  
 end

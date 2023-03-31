@@ -13,25 +13,54 @@ class ViewController: UIViewController {
         return table
     }()
     
-    var viewModel: NotesViewModelProtocol?
-
+    private lazy var refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(reloadView), for: .valueChanged)
+        
+        return refresh
+    }()
+    
+    private let animationView = AnimationNoResultsView()
+    let viewModel: NotesViewModelProtocol = NotesViewModel()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.topItem?.backButtonTitle = "Home"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFunctions()
     }
 }
 
+@objc
+extension ViewController {
+    private func reloadView() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.tableView.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
+        }
+    }
+}
+
 private extension ViewController {
     func setupFunctions() {
         setupUI()
+        configViewModel()
         setupComponents()
         setupConstraints()
         setupNavigation()
-        configViewModel()
+        countCells()
+        setupRefreshControl()
     }
+    
+    func setupRefreshControl() {
+        tableView.refreshControl = refreshControl
+    }
+    
     func configViewModel() {
-        viewModel?.loadNotes()
-        viewModel?.fetchedResult?.delegate = self
+        viewModel.fetchedResult.delegate = self
     }
     
     func setupComponents() {
@@ -50,7 +79,13 @@ private extension ViewController {
     }
     
     func setupNavigation() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addNote))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addNote))
+    }
+    
+    func countCells() {
+        if viewModel.countCells() == 0 {
+            view = animationView
+        }
     }
 }
 
@@ -63,17 +98,15 @@ extension ViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel?.countCells ?? 0
+        viewModel.countCells()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell,
-              let model = viewModel?.createCell(indexPath: indexPath) else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
-        
+        let model = viewModel.createCell(indexPath: indexPath)
         cell.setupInformations(model: model)
-        
         return cell
     }
 }

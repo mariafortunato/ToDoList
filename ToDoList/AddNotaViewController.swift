@@ -2,48 +2,51 @@ import UIKit
 import CoreData
 
 class AddNotaViewController: UIViewController {
-    private lazy var titleNote: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Ir ao médico"
-        textField.layer.borderWidth = 0.5
+    private lazy var stackVertical: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        stack.spacing = 2
+        [titleNote, descriptionNote].forEach { view in
+            stack.addArrangedSubview(view)
+        }
         
-        return textField
+        return stack
     }()
-    private lazy var descriptionNote: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Dia 12 às 11h"
-        textField.backgroundColor = .cyan
-        textField.layer.borderWidth = 0.5
-        
-        return textField
+    private lazy var titleNote: LabelAndTextFieldView = {
+        let view = LabelAndTextFieldView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.label.text = "Título:"
+        view.textField.placeholder = "Ir ao médico"
+        return view
     }()
-    private lazy var hour: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "16 horas atrás"
-        textField.backgroundColor = .cyan
-        textField.layer.borderWidth = 0.5
-        
-        return textField
+    private lazy var descriptionNote: LabelAndTextFieldView = {
+        let view = LabelAndTextFieldView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.label.text = "Descrição:"
+        view.textField.placeholder = "Dia 12/03 às 16h"
+        return view
     }()
     private lazy var buttonAdd: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Adicionar", for: .normal)
-        button.backgroundColor = .lightGray
         button.addTarget(self, action: #selector(actionButtonAdd), for: .touchUpInside)
+        button.backgroundColor = .gray
+        button.layer.cornerRadius = 8
         
         return button
     }()
     
-    var dataController: DataController?
-
+    var dataController = DataController()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFunctions()
-      
+        
     }
 }
 private extension AddNotaViewController {
@@ -54,27 +57,20 @@ private extension AddNotaViewController {
     }
     
     func setupComponents() {
-        view.addSubview(titleNote)
-        view.addSubview(descriptionNote)
+        view.addSubview(stackVertical)
         view.addSubview(buttonAdd)
     }
     
     func setupConstraints() {
-        titleNote.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(200)
+        stackVertical.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(100)
             make.trailing.leading.equalTo(view).inset(32)
-            make.height.equalTo(50)
+            make.bottom.equalTo(buttonAdd.snp.top).offset(-100)
         }
-        
-        descriptionNote.snp.makeConstraints { make in
-            make.top.equalTo(titleNote.snp.bottom).offset(16)
-            make.trailing.leading.equalTo(view).inset(32)
-            make.height.equalTo(50)
-        }
-        
         buttonAdd.snp.makeConstraints { make in
-            make.top.equalTo(descriptionNote.snp.bottom).offset(16)
-            make.trailing.leading.equalTo(view).inset(32)
+            make.top.equalTo(stackVertical.snp.bottom).offset(100)
+            make.leading.trailing.equalTo(view).inset(32)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-50)
             make.height.equalTo(50)
         }
     }
@@ -82,12 +78,26 @@ private extension AddNotaViewController {
     func setupUI() {
         view.backgroundColor = .white
     }
+
+    func nextScreen(title: String, description: String) {
+        let model = Annotation(title: title, descriptionNote: description, hour: 0, id: UUID())
+        dataController.saveAnnotation(model: model, context: dataController.context ?? NSManagedObjectContext())
+        
+        navigationController?.popViewController(animated: false)
+    }
 }
 
 @objc
 private extension AddNotaViewController {
     private func actionButtonAdd() {
-        dataController?.saveAnnotation(title: titleNote.text ?? "", description: descriptionNote.text ?? "", hour: 0, context: dataController?.context ?? NSManagedObjectContext())
-        navigationController?.popViewController(animated: false)
+        guard let title = titleNote.textField.text,
+              let description = descriptionNote.textField.text
+        else { return }
+
+        if title != "" || description != "" {
+            nextScreen(title: title, description: description)
+        } else {
+            showAlert(title: "Atenção!", message: "Preencha todos os campos")
+        }
     }
 }

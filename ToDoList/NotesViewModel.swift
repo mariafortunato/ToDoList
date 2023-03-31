@@ -1,10 +1,9 @@
 import CoreData
 
 protocol NotesViewModelProtocol {
-    var fetchedResult: NSFetchedResultsController<Notes>? { get }
-    var countCells: Int { get }
+    var fetchedResult: NSFetchedResultsController<Notes> { get }
     
-    func loadNotes()
+    func countCells() -> Int
     func createCell(indexPath: IndexPath) -> Annotation
 }
 
@@ -17,18 +16,18 @@ struct Annotation {
 
 class NotesViewModel {
     var fetchedResult = NSFetchedResultsController<Notes>()
-    let dataController = DataController()
+    private let dataController = DataController()
     
     init() {
         loadNotes()
     }
 }
 
-private extension NotesViewModel {
+extension NotesViewModel: NotesViewModelProtocol {
     func loadNotes() {
         guard let dataController = dataController.context else { return }
         let fetchRequest: NSFetchRequest<Notes> = Notes.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "id", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -36,7 +35,9 @@ private extension NotesViewModel {
         
         do {
             try fetchedResult.performFetch()
-        } catch { }
+        } catch {
+            print("erro")
+        }
     }
     
     func createCell(indexPath: IndexPath) -> Annotation {
@@ -46,13 +47,11 @@ private extension NotesViewModel {
         let descriptionNote = notes?.descriptionNote ?? ""
         let hour = notes?.hour ?? 0.0
         let id = notes?.id ?? UUID()
-        
-        
-        
+
         return Annotation(title: title, descriptionNote: descriptionNote, hour: hour, id: id)
     }
     
-    var countCells: Int {
-        fetchedResult.fetchedObjects?.count ?? 0
+    func countCells() -> Int {
+        fetchedResult.fetchedObjects?.count ?? 1
     }
 }

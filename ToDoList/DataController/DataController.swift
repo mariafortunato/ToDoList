@@ -10,13 +10,13 @@ class DataController {
             .viewContext
     }
     
-    func saveAnnotation(title: String, description: String, hour: Double, context: NSManagedObjectContext) {
+    func saveAnnotation(model: Annotation, context: NSManagedObjectContext) {
         let notes = Notes(context: context)
         
         notes.id = UUID()
-        notes.title = title
-        notes.descriptionNote = description
-        notes.hour = hour
+        notes.title = model.title
+        notes.descriptionNote = model.descriptionNote
+        notes.hour = model.hour
         
         save(context: context)
     }
@@ -27,7 +27,7 @@ private extension DataController {
         do {
             try context.save()
         } catch {
-            
+            print("Erro ao salvar")
         }
     }
 }

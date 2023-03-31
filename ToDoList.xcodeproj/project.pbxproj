@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C4C8DFE29D33FDF0014C818 /* noResults.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C4C8DFD29D33FDF0014C818 /* noResults.json */; };
+		4C4C8E0029D340080014C818 /* AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C8DFF29D340080014C818 /* AnimationView.swift */; };
+		4C619E4A29C1FD85007D22A4 /* LabelAndTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C619E4929C1FD85007D22A4 /* LabelAndTextFieldView.swift */; };
 		4CA4CEE8299861CB0000FA6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CEE7299861CB0000FA6E /* AppDelegate.swift */; };
 		4CA4CEEC299861CB0000FA6E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CEEB299861CB0000FA6E /* ViewController.swift */; };
 		4CA4CEF2299861CB0000FA6E /* ToDoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CEF0299861CB0000FA6E /* ToDoList.xcdatamodeld */; };
@@ -16,10 +19,15 @@
 		4CA4CF02299865E10000FA6E /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CF01299865E10000FA6E /* DataController.swift */; };
 		4CA4CF04299868400000FA6E /* AddNotaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CF03299868400000FA6E /* AddNotaViewController.swift */; };
 		4CA4CF0629986AE20000FA6E /* NotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CF0529986AE20000FA6E /* NotesViewModel.swift */; };
+		4CBA20C729C104B400F74ED1 /* ExtensionsUiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBA20C629C104B400F74ED1 /* ExtensionsUiViewController.swift */; };
+		4CBA20C929C1057100F74ED1 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBA20C829C1057100F74ED1 /* Colors.swift */; };
 		7082F13E85B5DEDAA0DDBAD1 /* Pods_ToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 742DD52446F4D7DC9BAA14BC /* Pods_ToDoList.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C4C8DFD29D33FDF0014C818 /* noResults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = noResults.json; sourceTree = "<group>"; };
+		4C4C8DFF29D340080014C818 /* AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationView.swift; sourceTree = "<group>"; };
+		4C619E4929C1FD85007D22A4 /* LabelAndTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelAndTextFieldView.swift; sourceTree = "<group>"; };
 		4CA4CEE4299861CB0000FA6E /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA4CEE7299861CB0000FA6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CA4CEEB299861CB0000FA6E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -31,6 +39,8 @@
 		4CA4CF01299865E10000FA6E /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		4CA4CF03299868400000FA6E /* AddNotaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNotaViewController.swift; sourceTree = "<group>"; };
 		4CA4CF0529986AE20000FA6E /* NotesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewModel.swift; sourceTree = "<group>"; };
+		4CBA20C629C104B400F74ED1 /* ExtensionsUiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsUiViewController.swift; sourceTree = "<group>"; };
+		4CBA20C829C1057100F74ED1 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		742DD52446F4D7DC9BAA14BC /* Pods_ToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0F816153AE8BFAFB07FB9AE /* Pods-ToDoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.release.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.release.xcconfig"; sourceTree = "<group>"; };
 		FF32393D9312E7C1FAC7ED11 /* Pods-ToDoList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.debug.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.debug.xcconfig"; sourceTree = "<group>"; };
@@ -77,6 +87,7 @@
 		4CA4CEE6299861CB0000FA6E /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				4C4C8DFD29D33FDF0014C818 /* noResults.json */,
 				4CA4CF00299865C60000FA6E /* DataController */,
 				4CA4CEE7299861CB0000FA6E /* AppDelegate.swift */,
 				4CA4CEEB299861CB0000FA6E /* ViewController.swift */,
@@ -86,6 +97,10 @@
 				4CA4CEFE299863830000FA6E /* TableViewCell.swift */,
 				4CA4CF03299868400000FA6E /* AddNotaViewController.swift */,
 				4CA4CF0529986AE20000FA6E /* NotesViewModel.swift */,
+				4CBA20C629C104B400F74ED1 /* ExtensionsUiViewController.swift */,
+				4CBA20C829C1057100F74ED1 /* Colors.swift */,
+				4C619E4929C1FD85007D22A4 /* LabelAndTextFieldView.swift */,
+				4C4C8DFF29D340080014C818 /* AnimationView.swift */,
 			);
 			path = ToDoList;
 			sourceTree = "<group>";
@@ -170,6 +185,7 @@
 			files = (
 				4CA4CEF7299861CC0000FA6E /* LaunchScreen.storyboard in Resources */,
 				4CA4CEF4299861CC0000FA6E /* Assets.xcassets in Resources */,
+				4C4C8DFE29D33FDF0014C818 /* noResults.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,11 +238,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CBA20C729C104B400F74ED1 /* ExtensionsUiViewController.swift in Sources */,
+				4CBA20C929C1057100F74ED1 /* Colors.swift in Sources */,
 				4CA4CF02299865E10000FA6E /* DataController.swift in Sources */,
 				4CA4CF0629986AE20000FA6E /* NotesViewModel.swift in Sources */,
 				4CA4CEEC299861CB0000FA6E /* ViewController.swift in Sources */,
+				4C619E4A29C1FD85007D22A4 /* LabelAndTextFieldView.swift in Sources */,
 				4CA4CEFF299863830000FA6E /* TableViewCell.swift in Sources */,
 				4CA4CEE8299861CB0000FA6E /* AppDelegate.swift in Sources */,
+				4C4C8E0029D340080014C818 /* AnimationView.swift in Sources */,
 				4CA4CF04299868400000FA6E /* AddNotaViewController.swift in Sources */,
 				4CA4CEF2299861CB0000FA6E /* ToDoList.xcdatamodeld in Sources */,
 			);
