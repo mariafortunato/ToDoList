@@ -9,7 +9,7 @@ class AnimationNoResultsView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Nenhuma anotação feita"
         label.isHidden = true
-        
+        label.backgroundColor = .green
         return label
     }()
     
@@ -51,6 +51,6 @@ extension AnimationNoResultsView {
         animation.play()
         animation.loopMode = .loop
         animation.animationSpeed = 1
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "Colorf2ecdc")
     }
 }

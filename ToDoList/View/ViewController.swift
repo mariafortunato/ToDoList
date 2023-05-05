@@ -6,10 +6,10 @@ class ViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
-        table.delegate = self
         table.dataSource = self
         table.register(TableViewCell.self,
                        forCellReuseIdentifier: TableViewCell.identifier)
+        table.backgroundColor = UIColor(named: "Colorf2ecdc")
         return table
     }()
     
@@ -21,11 +21,13 @@ class ViewController: UIViewController {
     }()
     
     private let animationView = AnimationNoResultsView()
-    let viewModel: NotesViewModelProtocol = NotesViewModel()
+    private let viewModel: NotesViewModelProtocol = NotesViewModel()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.topItem?.backButtonTitle = "Home"
+        navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        navigationController?.navigationBar.tintColor = UIColor(named: "Color574345")
+        reloadView()
     }
     
     override func viewDidLoad() {
@@ -75,11 +77,12 @@ private extension ViewController {
     }
     
     func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "Colorf2ecdc")
     }
     
     func setupNavigation() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addNote))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "Color574345")
     }
     
     func countCells() {
@@ -92,7 +95,7 @@ private extension ViewController {
 @objc
 extension ViewController {
     func addNote() {
-        navigationController?.pushViewController(AddNotaViewController(), animated: false)
+        navigationController?.pushViewController(AddNotesViewController(), animated: false)
     }
 }
 
@@ -109,13 +112,31 @@ extension ViewController: UITableViewDataSource {
         cell.setupInformations(model: model)
         return cell
     }
-}
 
-extension ViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard let eventArrayItem = viewModel.fetchedResult.fetchedObjects?[indexPath.row] else { return }
+        if editingStyle == .delete {
+            viewModel.dataController.context?.delete(eventArrayItem)
+            print(eventArrayItem)
+            do {
+                try viewModel.dataController.context?.save()
+            } catch {
+                print(error)
+            }
+        }
+    }
 }
 
 extension ViewController: NSFetchedResultsControllerDelegate {
     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        guard let indexPath = indexPath else { return }
+        switch type {
+            case .delete:
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+            default:
+                tableView.reloadData()
+        }
+    } 
 }
 
