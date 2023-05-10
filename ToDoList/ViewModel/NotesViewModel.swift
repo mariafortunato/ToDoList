@@ -3,21 +3,21 @@ import CoreData
 protocol NotesViewModelProtocol {
     var fetchedResult: NSFetchedResultsController<Notes> { get }
     var dataController: DataController { get }
+    var delegate: NotesViewModelDelegate? { get set }
     func countCells() -> Int
-    func createCell(indexPath: IndexPath) -> Annotation
+    func createCell(indexPath: IndexPath) -> AnnotationModel
     func calcTimeSince(date: Date) -> String
 }
 
-struct Annotation {
-    var title: String
-    var descriptionNote: String
-    var hour: Date
-    var id: UUID
+protocol NotesViewModelDelegate: AnyObject {
+    func reloadTableView()
+    func passagemDeDados() -> Notes?
 }
 
 class NotesViewModel {
     var fetchedResult = NSFetchedResultsController<Notes>()
     let dataController = DataController()
+    weak var delegate: NotesViewModelDelegate?
     
     init() {
         loadNotes()
@@ -41,7 +41,7 @@ extension NotesViewModel: NotesViewModelProtocol {
         }
     }
     
-    func createCell(indexPath: IndexPath) -> Annotation {
+    func createCell(indexPath: IndexPath) -> AnnotationModel {
         let notes = fetchedResult.fetchedObjects?[indexPath.row]
         
         let title = notes?.title ?? ""
@@ -49,13 +49,11 @@ extension NotesViewModel: NotesViewModelProtocol {
         let hour = notes?.hour ?? Date()
         let id = notes?.id ?? UUID()
         
-        print(notes?.hour)
-
-        return Annotation(title: title, descriptionNote: descriptionNote, hour: hour, id: id)
+        return AnnotationModel(title: title, descriptionNote: descriptionNote, hour: hour, id: id)
     }
     
     func countCells() -> Int {
-        fetchedResult.fetchedObjects?.count ?? 1
+        fetchedResult.fetchedObjects?.count ?? 0
     }
     
     func calcTimeSince(date: Date) -> String {
@@ -73,5 +71,24 @@ extension NotesViewModel: NotesViewModelProtocol {
         } else {
             return "\(day) dias atrás"
         }
+    }
+    
+    func save(title: String, description: String, hour: Date) {
+        let model = AnnotationModel(title: title, descriptionNote: description, hour: hour, id: UUID())
+        guard let dataC = dataController.context else { return }
+        
+        dataController.saveAnnotation(model: model, context: dataC)
+        
+    }
+    
+    func edit(annotationOld: Notes, titleNew: String, descriptionNew: String) {
+        
+        guard let dataControllerContext = dataController.context else { return }
+        dataController.editAnnotation(
+            annotationOld: annotationOld,
+            titleNew: titleNew,
+            descriptionNew: descriptionNew,
+            context: dataControllerContext
+        )
     }
 }

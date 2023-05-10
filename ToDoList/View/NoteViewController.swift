@@ -2,11 +2,12 @@ import SnapKit
 import CoreData
 import UIKit
 
-class ViewController: UIViewController {
+class NoteViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.dataSource = self
+        table.delegate = self
         table.register(TableViewCell.self,
                        forCellReuseIdentifier: TableViewCell.identifier)
         table.backgroundColor = UIColor(named: "Colorf2ecdc")
@@ -21,23 +22,23 @@ class ViewController: UIViewController {
     }()
     
     private let animationView = AnimationNoResultsView()
-    private let viewModel: NotesViewModelProtocol = NotesViewModel()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.topItem?.backButtonTitle = ""
-        navigationController?.navigationBar.tintColor = UIColor(named: "Color574345")
-        reloadView()
-    }
+    private var viewModel: NotesViewModelProtocol = NotesViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFunctions()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        navigationController?.navigationBar.tintColor = UIColor(named: "Color574345")
+        countCells()
+    }
 }
 
 @objc
-extension ViewController {
+extension NoteViewController {
     private func reloadView() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.tableView.refreshControl?.endRefreshing()
@@ -46,7 +47,7 @@ extension ViewController {
     }
 }
 
-private extension ViewController {
+private extension NoteViewController {
     func setupFunctions() {
         setupUI()
         configViewModel()
@@ -87,19 +88,25 @@ private extension ViewController {
     
     func countCells() {
         if viewModel.countCells() == 0 {
-            view = animationView
+            view.addSubview(animationView)
+            animationView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        } else {
+            animationView.removeFromSuperview()
+            reloadView()
         }
     }
 }
 
 @objc
-extension ViewController {
+extension NoteViewController {
     func addNote() {
-        navigationController?.pushViewController(AddNotesViewController(), animated: false)
+        navigationController?.pushViewController(CreateAndEditNotesViewController(), animated: false)
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension NoteViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.countCells()
     }
@@ -127,7 +134,15 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-extension ViewController: NSFetchedResultsControllerDelegate {
+extension NoteViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let note = viewModel.fetchedResult.fetchedObjects?[indexPath.row] else { return }
+        let details = CreateAndEditNotesViewController(model: note)
+        navigationController?.pushViewController(details, animated: true)
+    }
+}
+
+extension NoteViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         guard let indexPath = indexPath else { return }

@@ -29,7 +29,7 @@ class TableViewCell: UITableViewCell {
     
     private(set) lazy var titleNote: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Médico"
         label.font = UIFont(name: "Arial Bold", size: 18)
@@ -37,7 +37,7 @@ class TableViewCell: UITableViewCell {
     }()
     private lazy var descriptionNote: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Dia 12 às 19h"
         label.textColor = .systemGray2
@@ -46,7 +46,7 @@ class TableViewCell: UITableViewCell {
     }()
     private lazy var hour: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "12 horas atras"
         label.font = UIFont.systemFont(ofSize: 14)
@@ -64,7 +64,7 @@ class TableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupInformations(model: Annotation) {
+    func setupInformations(model: AnnotationModel) {
         titleNote.text = model.title
         descriptionNote.text = model.descriptionNote
         let view = NotesViewModel()
@@ -74,6 +74,7 @@ class TableViewCell: UITableViewCell {
 
 private extension TableViewCell {
     func setupFunctions() {
+        setupUI()
         setupComponents()
         setupConstraints()
     }
@@ -87,5 +88,9 @@ private extension TableViewCell {
             make.top.bottom.equalToSuperview().inset(8)
             make.leading.trailing.equalToSuperview().inset(16)
         }
+    }
+    
+    func setupUI() {
+        backgroundColor = .white
     }
 }

@@ -16,15 +16,17 @@ class LabelAndTextFieldView: UIView {
     lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        
         return label
     }()
     lazy var textField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
-        tf.layer.borderWidth = 0.5
+        tf.layer.borderWidth = 1
         tf.leftView = UIView(frame: CGRectMake(0, 0, 15, 0))
         tf.leftViewMode = .always
         tf.layer.cornerRadius = 8
+        tf.backgroundColor = UIColor(named: "Colorf5eed4")
         
         return tf
     }()
