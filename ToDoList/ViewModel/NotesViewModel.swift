@@ -28,7 +28,7 @@ extension NotesViewModel: NotesViewModelProtocol {
     func loadNotes() {
         guard let dataController = dataController.context else { return }
         let fetchRequest: NSFetchRequest<Notes> = Notes.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: false)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         

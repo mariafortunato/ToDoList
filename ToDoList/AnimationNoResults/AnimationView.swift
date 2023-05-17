@@ -8,8 +8,9 @@ class AnimationNoResultsView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Nenhuma anotação feita"
-        label.isHidden = true
-        label.backgroundColor = .green
+        label.textAlignment = .center
+        //Kanit
+        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
     
@@ -37,12 +38,14 @@ extension AnimationNoResultsView {
     
     func setupConstraints() {
         animation.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(label.snp.top).offset(-30)
+            make.top.equalToSuperview().inset(200)
+            make.height.width.equalTo(300)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(label.snp.top).offset(0)
         }
         label.snp.makeConstraints { make in
-            make.top.equalTo(animation.snp.bottom).offset(30)
-            make.bottom.equalToSuperview()
+            make.top.equalTo(animation.snp.bottom).offset(0)
+            make.bottom.equalToSuperview().offset(-280)
             make.leading.trailing.equalToSuperview().inset(32)
         }
     }

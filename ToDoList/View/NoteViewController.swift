@@ -33,7 +33,7 @@ class NoteViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor(named: "Color574345")
-        countCells()
+        tableEmpty()
     }
 }
 
@@ -54,7 +54,7 @@ private extension NoteViewController {
         setupComponents()
         setupConstraints()
         setupNavigation()
-        countCells()
+        tableEmpty()
         setupRefreshControl()
     }
     
@@ -86,15 +86,19 @@ private extension NoteViewController {
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "Color574345")
     }
     
-    func countCells() {
+    func tableEmpty() {
         if viewModel.countCells() == 0 {
-            view.addSubview(animationView)
-            animationView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
+            setupViewAnimation()
         } else {
             animationView.removeFromSuperview()
             reloadView()
+        }
+    }
+    
+    func setupViewAnimation() {
+        view.addSubview(animationView)
+        animationView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }
@@ -112,9 +116,8 @@ extension NoteViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
-            return UITableViewCell()
-        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else { return UITableViewCell() }
+        
         let model = viewModel.createCell(indexPath: indexPath)
         cell.setupInformations(model: model)
         return cell
@@ -127,9 +130,11 @@ extension NoteViewController: UITableViewDataSource {
             print(eventArrayItem)
             do {
                 try viewModel.dataController.context?.save()
+                
             } catch {
                 print(error)
             }
+            tableEmpty()
         }
     }
 }

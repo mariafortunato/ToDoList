@@ -97,18 +97,17 @@ extension CreateAndEditNotesViewController {
     }
     
     func setupUIEdit() {
-        view.backgroundColor = UIColor(named: "Colorf2ecdc")
         title = "Editar anotação"
         button.setTitle("Editar", for: .normal)
     }
     
     func setupUIAdd() {
-        view.backgroundColor = UIColor(named: "Colorf2ecdc")
         title = "Adicionar anotação"
         button.setTitle("Adicionar", for: .normal)
     }
     
     func setupScreen() {
+        view.backgroundColor = UIColor(named: "Colorf2ecdc")
         if titleNote.textField.text == "" {
             setupUIAdd()
         } else {
@@ -128,23 +127,25 @@ extension CreateAndEditNotesViewController {
 @objc
 private extension CreateAndEditNotesViewController {
     private func buttonAction() {
+        guard let title = titleNote.textField.text,
+              let description = descriptionNote.textField.text
+        else { return }
+        
         if button.titleLabel?.text == "Adicionar" {
-            guard let title = titleNote.textField.text,
-                  let description = descriptionNote.textField.text
-            else { return }
             if title == "" && description == "" {
                 showAlert(title: "Atenção", message: "Preencha todos os campos")
             } else {
                 viewModel.save(title: title, description: description, hour: hour)
             }
         } else {
-            guard let title = titleNote.textField.text,
-                  let description = descriptionNote.textField.text,
-            let model = model
-            else { return }
-            viewModel.edit(annotationOld: model, titleNew: title, descriptionNew: description)
+            guard let model = model else { return }
+            if title == "" && description == "" {
+                showAlert(title: "Atenção", message: "Preencha todos os campos")
+            } else {
+                viewModel.edit(annotationOld: model, titleNew: title, descriptionNew: description)
+            }
+            
         }
         returnScreen()
-        print("eee")
     }
 }
