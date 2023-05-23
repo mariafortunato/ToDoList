@@ -16,7 +16,7 @@ class DataController {
         notes.id = UUID()
         notes.title = model.title
         notes.descriptionNote = model.descriptionNote
-        notes.hour = model.hour
+        notes.date = model.date
         
         save(context: context)
     }
@@ -25,7 +25,7 @@ class DataController {
         
         annotationOld.title = titleNew
         annotationOld.descriptionNote = descriptionNew
-        annotationOld.hour = Date()
+        annotationOld.date = Date()
         
         save(context: context)
     }

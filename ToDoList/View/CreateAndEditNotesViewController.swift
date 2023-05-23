@@ -48,7 +48,7 @@ class CreateAndEditNotesViewController: UIViewController {
     }()
     
     let viewModel = NotesViewModel()
-    let hour = Date()
+    let date = Date()
     let model: Notes?
     
     override func viewDidLoad() {
@@ -63,7 +63,6 @@ class CreateAndEditNotesViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         titleNote.textField.text = model?.title
         descriptionNote.textField.text = model?.descriptionNote
-        
     }
     
     required init?(coder: NSCoder) {
@@ -115,8 +114,8 @@ extension CreateAndEditNotesViewController {
         }
     }
     
-    func save(title: String, description: String, hour: Date) {
-        viewModel.save(title: title, description: description, hour: hour)
+    func save(title: String, description: String, date: Date) {
+        viewModel.save(title: title, description: description, date: date)
     }
     
     func returnScreen() {
@@ -135,7 +134,7 @@ private extension CreateAndEditNotesViewController {
             if title == "" && description == "" {
                 showAlert(title: "Atenção", message: "Preencha todos os campos")
             } else {
-                viewModel.save(title: title, description: description, hour: hour)
+                viewModel.save(title: title, description: description, date: date)
             }
         } else {
             guard let model = model else { return }

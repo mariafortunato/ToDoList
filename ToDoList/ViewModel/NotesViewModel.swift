@@ -1,4 +1,5 @@
 import CoreData
+import UIKit
 
 protocol NotesViewModelProtocol {
     var fetchedResult: NSFetchedResultsController<Notes> { get }
@@ -19,7 +20,8 @@ class NotesViewModel {
     let dataController = DataController()
     weak var delegate: NotesViewModelDelegate?
     
-    init() {
+    init(fetchedResult: NSFetchedResultsController<Notes> = NSFetchedResultsController<Notes>()) {
+        self.fetchedResult = fetchedResult
         loadNotes()
     }
 }
@@ -28,7 +30,7 @@ extension NotesViewModel: NotesViewModelProtocol {
     func loadNotes() {
         guard let dataController = dataController.context else { return }
         let fetchRequest: NSFetchRequest<Notes> = Notes.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "title", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -46,10 +48,10 @@ extension NotesViewModel: NotesViewModelProtocol {
         
         let title = notes?.title ?? ""
         let descriptionNote = notes?.descriptionNote ?? ""
-        let hour = notes?.hour ?? Date()
+        let date = notes?.date ?? Date()
         let id = notes?.id ?? UUID()
         
-        return AnnotationModel(title: title, descriptionNote: descriptionNote, hour: hour, id: id)
+        return AnnotationModel(title: title, descriptionNote: descriptionNote, date: date, id: id)
     }
     
     func countCells() -> Int {
@@ -73,8 +75,8 @@ extension NotesViewModel: NotesViewModelProtocol {
         }
     }
     
-    func save(title: String, description: String, hour: Date) {
-        let model = AnnotationModel(title: title, descriptionNote: description, hour: hour, id: UUID())
+    func save(title: String, description: String, date: Date) {
+        let model = AnnotationModel(title: title, descriptionNote: description, date: date, id: UUID())
         guard let dataC = dataController.context else { return }
         
         dataController.saveAnnotation(model: model, context: dataC)
@@ -90,5 +92,22 @@ extension NotesViewModel: NotesViewModelProtocol {
             descriptionNew: descriptionNew,
             context: dataControllerContext
         )
+    }
+    
+    func deleteData() {
+        let appDel:AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
+        let context:NSManagedObjectContext = appDel.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(fetchRequest)
+            for managedObject in results {
+                if let managedObjectData: NSManagedObject = managedObject as? NSManagedObject {
+                    context.delete(managedObjectData)
+                }
+            }
+        } catch let error as NSError {
+            print("Deleted all my data in myEntity error : \(error) \(error.userInfo)")
+        }
     }
 }

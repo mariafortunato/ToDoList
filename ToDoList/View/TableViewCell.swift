@@ -68,7 +68,7 @@ class TableViewCell: UITableViewCell {
         titleNote.text = model.title
         descriptionNote.text = model.descriptionNote
         let view = NotesViewModel()
-        hour.text = "\(view.calcTimeSince(date: model.hour))"
+        hour.text = "\(view.calcTimeSince(date: model.date))"
     }
 }
 

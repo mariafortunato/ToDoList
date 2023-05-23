@@ -36,5 +36,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "91DD3048-BF4F-4B3D-8913-5DCB4C02FDF1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ToDoListTests/ToDoListTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "testExample()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "91DD3048-BF4F-4B3D-8913-5DCB4C02FDF1 - a00428f16c94ee9b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ToDoListTests.ToDoListTests.testExample() throws -&gt; ()"
+                  moduleName = "ToDoListTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maria/Documents/projetosIOS/ToDoList/ToDoListTests/ToDoListTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "91DD3048-BF4F-4B3D-8913-5DCB4C02FDF1 - a00428f16c94ee9b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ToDoListTests.ToDoListTests.testExample() throws -&gt; ()"
+                  moduleName = "ToDoListTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maria/Documents/projetosIOS/ToDoList/ToDoListTests/ToDoListTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "212">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
