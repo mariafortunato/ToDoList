@@ -8,6 +8,7 @@ protocol NotesViewModelProtocol {
     func countCells() -> Int
     func createCell(indexPath: IndexPath) -> AnnotationModel
     func calcTimeSince(date: Date) -> String
+    func delete(annotation: Notes)
 }
 
 protocol NotesViewModelDelegate: AnyObject {
@@ -41,6 +42,7 @@ extension NotesViewModel: NotesViewModelProtocol {
         } catch {
             print("erro")
         }
+        print(fetchedResult.fetchedObjects)
     }
     
     func createCell(indexPath: IndexPath) -> AnnotationModel {
@@ -94,20 +96,12 @@ extension NotesViewModel: NotesViewModelProtocol {
         )
     }
     
-    func deleteData() {
-        let appDel:AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
-        let context:NSManagedObjectContext = appDel.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Notes")
-        fetchRequest.returnsObjectsAsFaults = false
+    func delete(annotation: Notes) {
+        dataController.context?.delete(annotation)
         do {
-            let results = try context.fetch(fetchRequest)
-            for managedObject in results {
-                if let managedObjectData: NSManagedObject = managedObject as? NSManagedObject {
-                    context.delete(managedObjectData)
-                }
-            }
-        } catch let error as NSError {
-            print("Deleted all my data in myEntity error : \(error) \(error.userInfo)")
+            try dataController.context?.save()
+        } catch {
+            print(error)
         }
     }
 }

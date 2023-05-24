@@ -126,14 +126,7 @@ extension NoteViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let eventArrayItem = viewModel.fetchedResult.fetchedObjects?[indexPath.row] else { return }
         if editingStyle == .delete {
-            viewModel.dataController.context?.delete(eventArrayItem)
-            print(eventArrayItem)
-            do {
-                try viewModel.dataController.context?.save()
-                
-            } catch {
-                print(error)
-            }
+            viewModel.delete(annotation: eventArrayItem)
             tableEmpty()
         }
     }
