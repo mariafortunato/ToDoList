@@ -42,7 +42,6 @@ extension NotesViewModel: NotesViewModelProtocol {
         } catch {
             print("erro")
         }
-        print(fetchedResult.fetchedObjects)
     }
     
     func createCell(indexPath: IndexPath) -> AnnotationModel {

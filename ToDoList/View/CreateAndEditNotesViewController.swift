@@ -58,7 +58,6 @@ class CreateAndEditNotesViewController: UIViewController {
     }
     
     init(model: Notes? = nil) {
-        
         self.model = model
         super.init(nibName: nil, bundle: nil)
         titleNote.textField.text = model?.title

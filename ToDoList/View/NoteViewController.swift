@@ -82,6 +82,7 @@ private extension NoteViewController {
     }
     
     func setupNavigation() {
+        title = "Anotações"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addNote))
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "Color574345")
     }
