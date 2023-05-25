@@ -16,7 +16,8 @@ class NoteViewController: UIViewController {
     
     private lazy var refreshControl: UIRefreshControl = {
         let refresh = UIRefreshControl()
-        refresh.addTarget(self, action: #selector(reloadView), for: .valueChanged)
+        refresh.addTarget(self, action: #selector(reloadTable), for: .valueChanged)
+        refresh.tintColor = UIColor(named: "Colorffe6bd")
         
         return refresh
     }()
@@ -39,7 +40,7 @@ class NoteViewController: UIViewController {
 
 @objc
 extension NoteViewController {
-    private func reloadView() {
+    private func reloadTable() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.tableView.refreshControl?.endRefreshing()
             self.tableView.reloadData()
@@ -92,7 +93,7 @@ private extension NoteViewController {
             setupViewAnimation()
         } else {
             animationView.removeFromSuperview()
-            reloadView()
+            reloadTable()
         }
     }
     
