@@ -2,28 +2,40 @@ import CoreData
 import UIKit
 
 protocol NotesViewModelProtocol {
-    var fetchedResult: NSFetchedResultsController<Notes> { get }
-    var dataController: DataController { get }
+//    var fetchedResult: NSFetchedResultsController<Notes> { get }
+//    var dataController: DataController { get }
+    var arrayNotes: [Notes] { get }
     var delegate: NotesViewModelDelegate? { get set }
-    func countCells() -> Int
+    func loadNotes()
+    func numberOfRows() -> Int
     func createCell(indexPath: IndexPath) -> AnnotationModel
     func calcTimeSince(date: Date) -> String
     func delete(annotation: Notes)
+    func tableViewEmpty()
 }
 
 protocol NotesViewModelDelegate: AnyObject {
-    func reloadTableView()
-    func passagemDeDados() -> Notes?
+    func reloadData()
+    func emptyAnimation()
+    func removeAnimation()
+//    func passagemDeDados() -> Notes?
 }
 
-class NotesViewModel {
-    var fetchedResult = NSFetchedResultsController<Notes>()
-    let dataController = DataController()
+final class NotesViewModel {
+    private var fetchedResult = NSFetchedResultsController<Notes>()
+    private let dataController: DataControllerProtocol
+    var arrayNotes: [Notes] {
+        guard let notes = fetchedResult.fetchedObjects else { return [] }
+        return notes
+    }
     weak var delegate: NotesViewModelDelegate?
     
-    init(fetchedResult: NSFetchedResultsController<Notes> = NSFetchedResultsController<Notes>()) {
+    init(
+        fetchedResult: NSFetchedResultsController<Notes> = NSFetchedResultsController<Notes>(),
+        dataController: DataControllerProtocol = DataController()
+    ) {
         self.fetchedResult = fetchedResult
-        loadNotes()
+        self.dataController = dataController
     }
 }
 
@@ -55,8 +67,16 @@ extension NotesViewModel: NotesViewModelProtocol {
         return AnnotationModel(title: title, descriptionNote: descriptionNote, date: date, id: id)
     }
     
-    func countCells() -> Int {
-        fetchedResult.fetchedObjects?.count ?? 0
+    func numberOfRows() -> Int {
+        arrayNotes.count
+    }
+    
+    func tableViewEmpty() {
+        if arrayNotes.count == 0 {
+            delegate?.emptyAnimation()
+        } else {
+            delegate?.removeAnimation()
+        }
     }
     
     func calcTimeSince(date: Date) -> String {
@@ -76,16 +96,13 @@ extension NotesViewModel: NotesViewModelProtocol {
         }
     }
     
-    func save(title: String, description: String, date: Date) {
+    func save(title: String, description: String, date: Date) throws {
         let model = AnnotationModel(title: title, descriptionNote: description, date: date, id: UUID())
         guard let dataC = dataController.context else { return }
-        
         dataController.saveAnnotation(model: model, context: dataC)
-        
     }
     
     func edit(annotationOld: Notes, titleNew: String, descriptionNew: String) {
-        
         guard let dataControllerContext = dataController.context else { return }
         dataController.editAnnotation(
             annotationOld: annotationOld,
@@ -99,6 +116,7 @@ extension NotesViewModel: NotesViewModelProtocol {
         dataController.context?.delete(annotation)
         do {
             try dataController.context?.save()
+            delegate?.emptyAnimation()
         } catch {
             print(error)
         }

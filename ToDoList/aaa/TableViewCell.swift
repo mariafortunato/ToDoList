@@ -67,8 +67,8 @@ class TableViewCell: UITableViewCell {
     func setupInformations(model: AnnotationModel) {
         titleNote.text = model.title
         descriptionNote.text = model.descriptionNote
-//        let view = NotesViewModel()
-//        hour.text = "\(view.calcTimeSince(date: model.date))"
+        let view = NotesViewModel()
+        hour.text = "\(view.calcTimeSince(date: model.date))"
     }
 }
 

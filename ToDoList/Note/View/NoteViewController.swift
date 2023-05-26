@@ -1,7 +1,7 @@
 import UIKit
 import CoreData
 
-class CreateAndEditNotesViewController: UIViewController {
+class NoteViewController: UIViewController {
     private lazy var stackVertical: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -47,9 +47,10 @@ class CreateAndEditNotesViewController: UIViewController {
         return button
     }()
     
-    let viewModel = NotesViewModel()
-    let date = Date()
-    let model: Notes?
+    private var viewModel: NoteViewModel?
+
+    private let date = Date()
+    private let model: Notes?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +63,7 @@ class CreateAndEditNotesViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         titleNote.textField.text = model?.title
         descriptionNote.textField.text = model?.descriptionNote
+        viewModel = NoteViewModel(viewController: self)
     }
     
     required init?(coder: NSCoder) {
@@ -69,8 +71,7 @@ class CreateAndEditNotesViewController: UIViewController {
     }
 }
 
-extension CreateAndEditNotesViewController {
-    
+extension NoteViewController {
     func setupFunctions() {
         setupComponents()
         setupConstraints()
@@ -114,7 +115,7 @@ extension CreateAndEditNotesViewController {
     }
     
     func save(title: String, description: String, date: Date) {
-        viewModel.save(title: title, description: description, date: date)
+        viewModel?.save(title: title, description: description, date: date)
     }
     
     func returnScreen() {
@@ -123,7 +124,7 @@ extension CreateAndEditNotesViewController {
 }
 
 @objc
-private extension CreateAndEditNotesViewController {
+private extension NoteViewController {
     private func buttonAction() {
         guard let title = titleNote.textField.text,
               let description = descriptionNote.textField.text
@@ -133,14 +134,14 @@ private extension CreateAndEditNotesViewController {
             if title == "" && description == "" {
                 showAlert(title: "Atenção", message: "Preencha todos os campos")
             } else {
-                viewModel.save(title: title, description: description, date: date)
+                viewModel?.save(title: title, description: description, date: date)
             }
         } else {
             guard let model = model else { return }
             if title == "" && description == "" {
                 showAlert(title: "Atenção", message: "Preencha todos os campos")
             } else {
-                viewModel.edit(annotationOld: model, titleNew: title, descriptionNew: description)
+                viewModel?.edit(annotationOld: model, titleNew: title, descriptionNew: description)
             }
             
         }

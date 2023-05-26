@@ -2,27 +2,26 @@ import SnapKit
 import CoreData
 import UIKit
 
-class NoteViewController: UIViewController {
-    
+class NotesViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.dataSource = self
         table.delegate = self
-        table.register(TableViewCell.self,
-                       forCellReuseIdentifier: TableViewCell.identifier)
+        table.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         table.backgroundColor = UIColor(named: "Colorf2ecdc")
         return table
     }()
     
     private lazy var refreshControl: UIRefreshControl = {
         let refresh = UIRefreshControl()
-        refresh.addTarget(self, action: #selector(reloadTable), for: .valueChanged)
+        refresh.addTarget(self, action: #selector(tableViewReloadData), for: .valueChanged)
         refresh.tintColor = UIColor(named: "Colorffe6bd")
         
         return refresh
     }()
     
-    private let animationView = AnimationNoResultsView()
+    private lazy var animationView = AnimationNoResultsView()
+    
     private var viewModel: NotesViewModelProtocol = NotesViewModel()
     
     override func viewDidLoad() {
@@ -34,13 +33,13 @@ class NoteViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor(named: "Color574345")
-        tableEmpty()
+        viewModel.changeAnimationView()
     }
 }
 
 @objc
-extension NoteViewController {
-    private func reloadTable() {
+extension NotesViewController {
+    private func tableViewReloadData() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.tableView.refreshControl?.endRefreshing()
             self.tableView.reloadData()
@@ -48,14 +47,13 @@ extension NoteViewController {
     }
 }
 
-private extension NoteViewController {
+private extension NotesViewController {
     func setupFunctions() {
-        setupUI()
         configViewModel()
+        setupUI()
         setupComponents()
         setupConstraints()
         setupNavigation()
-        tableEmpty()
         setupRefreshControl()
     }
     
@@ -64,6 +62,8 @@ private extension NoteViewController {
     }
     
     func configViewModel() {
+        viewModel.loadNotes()
+        viewModel.delegate = self
         viewModel.fetchedResult.delegate = self
     }
     
@@ -88,15 +88,6 @@ private extension NoteViewController {
         navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "Color574345")
     }
     
-    func tableEmpty() {
-        if viewModel.countCells() == 0 {
-            setupViewAnimation()
-        } else {
-            animationView.removeFromSuperview()
-            reloadTable()
-        }
-    }
-    
     func setupViewAnimation() {
         view.addSubview(animationView)
         animationView.snp.makeConstraints { make in
@@ -106,15 +97,30 @@ private extension NoteViewController {
 }
 
 @objc
-extension NoteViewController {
+extension NotesViewController {
     func addNote() {
-        navigationController?.pushViewController(CreateAndEditNotesViewController(), animated: false)
+        navigationController?.pushViewController(NotesViewController(), animated: false)
     }
 }
 
-extension NoteViewController: UITableViewDataSource {
+extension NotesViewController: NotesViewModelDelegate {
+    func reloadData() {
+        tableView.reloadData()
+    }
+    
+    func emptyAnimation() {
+        setupViewAnimation()
+    }
+    
+    func removeAnimation() {
+        animationView.removeFromSuperview()
+        tableView.reloadData()
+    }
+}
+
+extension NotesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.countCells()
+        viewModel.numberOfRows()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -126,32 +132,30 @@ extension NoteViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let eventArrayItem = viewModel.fetchedResult.fetchedObjects?[indexPath.row] else { return }
+        let eventArrayItem = viewModel.arrayNotes[indexPath.row]
         if editingStyle == .delete {
             viewModel.delete(annotation: eventArrayItem)
-            tableEmpty()
         }
     }
 }
 
-extension NoteViewController: UITableViewDelegate {
+extension NotesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let note = viewModel.fetchedResult.fetchedObjects?[indexPath.row] else { return }
-        let details = CreateAndEditNotesViewController(model: note)
-        navigationController?.pushViewController(details, animated: true)
+//        let note = viewModel.arrayNotes[indexPath.row]
+//        let details = NoteViewController(model: note)
+//        navigationController?.pushViewController(details, animated: true)
     }
 }
 
-extension NoteViewController: NSFetchedResultsControllerDelegate {
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        guard let indexPath = indexPath else { return }
-        switch type {
-            case .delete:
-                self.tableView.deleteRows(at: [indexPath], with: .fade)
-            default:
-                tableView.reloadData()
-        }
-    } 
-}
+//extension NotesViewController: NSFetchedResultsControllerDelegate {
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+//        guard let indexPath = indexPath else { return }
+//        switch type {
+//            case .delete:
+//                self.tableView.deleteRows(at: [indexPath], with: .fade)
+//            default:
+//                tableView.reloadData()
+//        }
+//    }
+//}
 

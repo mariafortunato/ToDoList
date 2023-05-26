@@ -10,10 +10,10 @@
 		4C4C8DFE29D33FDF0014C818 /* noResults.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C4C8DFD29D33FDF0014C818 /* noResults.json */; };
 		4C4C8E0029D340080014C818 /* AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C8DFF29D340080014C818 /* AnimationView.swift */; };
 		4C619E4A29C1FD85007D22A4 /* LabelAndTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C619E4929C1FD85007D22A4 /* LabelAndTextFieldView.swift */; };
-		4C7CE13F2A0AB87E00276B14 /* CreateAndEditNotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7CE13E2A0AB87E00276B14 /* CreateAndEditNotesViewController.swift */; };
+		4C7CE13F2A0AB87E00276B14 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7CE13E2A0AB87E00276B14 /* NoteViewController.swift */; };
 		4C7CE1412A0AC14C00276B14 /* AnnotationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C7CE1402A0AC14C00276B14 /* AnnotationModel.swift */; };
 		4CA4CEE8299861CB0000FA6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CEE7299861CB0000FA6E /* AppDelegate.swift */; };
-		4CA4CEEC299861CB0000FA6E /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CEEB299861CB0000FA6E /* NoteViewController.swift */; };
+		4CA4CEEC299861CB0000FA6E /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CEEB299861CB0000FA6E /* NotesViewController.swift */; };
 		4CA4CEF2299861CB0000FA6E /* ToDoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CEF0299861CB0000FA6E /* ToDoList.xcdatamodeld */; };
 		4CA4CEF4299861CC0000FA6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CA4CEF3299861CC0000FA6E /* Assets.xcassets */; };
 		4CA4CEF7299861CC0000FA6E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CA4CEF5299861CC0000FA6E /* LaunchScreen.storyboard */; };
@@ -22,6 +22,7 @@
 		4CA4CF0629986AE20000FA6E /* NotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA4CF0529986AE20000FA6E /* NotesViewModel.swift */; };
 		4CBA20C729C104B400F74ED1 /* ExtensionsUiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBA20C629C104B400F74ED1 /* ExtensionsUiViewController.swift */; };
 		7082F13E85B5DEDAA0DDBAD1 /* Pods_ToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 742DD52446F4D7DC9BAA14BC /* Pods_ToDoList.framework */; };
+		75485EE42A2167EB00CFA09E /* NoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75485EE32A2167EB00CFA09E /* NoteViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,11 +39,11 @@
 		4C4C8DFD29D33FDF0014C818 /* noResults.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = noResults.json; sourceTree = "<group>"; };
 		4C4C8DFF29D340080014C818 /* AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationView.swift; sourceTree = "<group>"; };
 		4C619E4929C1FD85007D22A4 /* LabelAndTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelAndTextFieldView.swift; sourceTree = "<group>"; };
-		4C7CE13E2A0AB87E00276B14 /* CreateAndEditNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAndEditNotesViewController.swift; sourceTree = "<group>"; };
+		4C7CE13E2A0AB87E00276B14 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		4C7CE1402A0AC14C00276B14 /* AnnotationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationModel.swift; sourceTree = "<group>"; };
 		4CA4CEE4299861CB0000FA6E /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CA4CEE7299861CB0000FA6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4CA4CEEB299861CB0000FA6E /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
+		4CA4CEEB299861CB0000FA6E /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		4CA4CEF1299861CB0000FA6E /* ToDoList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToDoList.xcdatamodel; sourceTree = "<group>"; };
 		4CA4CEF3299861CC0000FA6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4CA4CEF6299861CC0000FA6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -53,6 +54,7 @@
 		4CB42BDE2A1D7A5500CC1FFF /* ToDoListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CBA20C629C104B400F74ED1 /* ExtensionsUiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsUiViewController.swift; sourceTree = "<group>"; };
 		742DD52446F4D7DC9BAA14BC /* Pods_ToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		75485EE32A2167EB00CFA09E /* NoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModel.swift; sourceTree = "<group>"; };
 		C0F816153AE8BFAFB07FB9AE /* Pods-ToDoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.release.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.release.xcconfig"; sourceTree = "<group>"; };
 		FF32393D9312E7C1FAC7ED11 /* Pods-ToDoList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.debug.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +116,8 @@
 		4CA4CEE6299861CB0000FA6E /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				75485EE02A2167B700CFA09E /* Note */,
+				75E7FB862A2034880032B545 /* Notes */,
 				4CCFE0132A018FDC009DD49E /* AnimationNoResults */,
 				4CCFE00D2A018F95009DD49E /* Components */,
 				4CA4CF00299865C60000FA6E /* DataController */,
@@ -149,7 +153,6 @@
 		4CCFE0102A018FB9009DD49E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				4CA4CF0529986AE20000FA6E /* NotesViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -175,10 +178,58 @@
 			isa = PBXGroup;
 			children = (
 				4CA4CEFE299863830000FA6E /* TableViewCell.swift */,
-				4CA4CEEB299861CB0000FA6E /* NoteViewController.swift */,
-				4C7CE13E2A0AB87E00276B14 /* CreateAndEditNotesViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		75485EE02A2167B700CFA09E /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				75485EE22A2167DC00CFA09E /* ViewModel */,
+				75485EE12A2167D400CFA09E /* View */,
+			);
+			path = Note;
+			sourceTree = "<group>";
+		};
+		75485EE12A2167D400CFA09E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4C7CE13E2A0AB87E00276B14 /* NoteViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		75485EE22A2167DC00CFA09E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				75485EE32A2167EB00CFA09E /* NoteViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		75E7FB862A2034880032B545 /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				75E7FB882A2034980032B545 /* ViewModel */,
+				75E7FB872A20348F0032B545 /* View */,
+			);
+			path = Notes;
+			sourceTree = "<group>";
+		};
+		75E7FB872A20348F0032B545 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4CA4CEEB299861CB0000FA6E /* NotesViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		75E7FB882A2034980032B545 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4CA4CF0529986AE20000FA6E /* NotesViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		83E82493C6BB904888477355 /* Pods */ = {
@@ -338,13 +389,14 @@
 				4CBA20C729C104B400F74ED1 /* ExtensionsUiViewController.swift in Sources */,
 				4CA4CF02299865E10000FA6E /* DataController.swift in Sources */,
 				4CA4CF0629986AE20000FA6E /* NotesViewModel.swift in Sources */,
-				4CA4CEEC299861CB0000FA6E /* NoteViewController.swift in Sources */,
+				4CA4CEEC299861CB0000FA6E /* NotesViewController.swift in Sources */,
 				4C619E4A29C1FD85007D22A4 /* LabelAndTextFieldView.swift in Sources */,
 				4CA4CEFF299863830000FA6E /* TableViewCell.swift in Sources */,
 				4CA4CEE8299861CB0000FA6E /* AppDelegate.swift in Sources */,
 				4C4C8E0029D340080014C818 /* AnimationView.swift in Sources */,
+				75485EE42A2167EB00CFA09E /* NoteViewModel.swift in Sources */,
 				4C7CE1412A0AC14C00276B14 /* AnnotationModel.swift in Sources */,
-				4C7CE13F2A0AB87E00276B14 /* CreateAndEditNotesViewController.swift in Sources */,
+				4C7CE13F2A0AB87E00276B14 /* NoteViewController.swift in Sources */,
 				4CA4CEF2299861CB0000FA6E /* ToDoList.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
