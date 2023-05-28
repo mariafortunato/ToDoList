@@ -1,8 +1,8 @@
 import Foundation
 
 struct AnnotationModel {
-    var title: String
-    var descriptionNote: String
-    var date: Date
-    var id: UUID
+    let title: String
+    let descriptionNote: String
+    let date: Date
+    let id: UUID
 }

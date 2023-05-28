@@ -5,23 +5,38 @@ protocol NotesViewModelProtocol {
     var fetchedResult: NSFetchedResultsController<Notes> { get }
     var dataController: DataController { get }
     var delegate: NotesViewModelDelegate? { get set }
-    func countCells() -> Int
+    func loadNotes()
+    func numberOfRows() -> Int
     func createCell(indexPath: IndexPath) -> AnnotationModel
     func calcTimeSince(date: Date) -> String
     func delete(annotation: Notes)
+    func changeView()
+    func openNoteViewController(model: Notes?)
 }
 
 protocol NotesViewModelDelegate: AnyObject {
     func reloadTableView()
-    func passagemDeDados() -> Notes?
+    func displayAnimationView()
+    func displayTableView()
 }
 
 class NotesViewModel {
     var fetchedResult = NSFetchedResultsController<Notes>()
     let dataController = DataController()
-    weak var delegate: NotesViewModelDelegate?
     
-    init(fetchedResult: NSFetchedResultsController<Notes> = NSFetchedResultsController<Notes>()) {
+    private var notes: [Notes] {
+        guard let notes = fetchedResult.fetchedObjects else { return [] }
+        return notes
+    }
+    
+    weak var delegate: NotesViewModelDelegate?
+    weak var viewController: NotesViewController?
+    
+    init(
+        viewController: NotesViewController,
+        fetchedResult: NSFetchedResultsController<Notes> = NSFetchedResultsController<Notes>()
+    ) {
+        self.viewController = viewController
         self.fetchedResult = fetchedResult
         loadNotes()
     }
@@ -40,23 +55,32 @@ extension NotesViewModel: NotesViewModelProtocol {
         do {
             try fetchedResult.performFetch()
         } catch {
-            print("erro")
+            viewController?.showAlert(title: "Atencao", message: "Erro ao carregar a nota")
         }
     }
     
     func createCell(indexPath: IndexPath) -> AnnotationModel {
-        let notes = fetchedResult.fetchedObjects?[indexPath.row]
+        let note = notes[indexPath.row]
         
-        let title = notes?.title ?? ""
-        let descriptionNote = notes?.descriptionNote ?? ""
-        let date = notes?.date ?? Date()
-        let id = notes?.id ?? UUID()
+        let title = note.title ?? ""
+        let descriptionNote = note.descriptionNote ?? ""
+        let date = note.date ?? Date()
+        let id = note.id ?? UUID()
         
-        return AnnotationModel(title: title, descriptionNote: descriptionNote, date: date, id: id)
+        return .init(title: title, descriptionNote: descriptionNote, date: date, id: id)
     }
     
-    func countCells() -> Int {
-        fetchedResult.fetchedObjects?.count ?? 0
+    func numberOfRows() -> Int {
+        notes.count
+    }
+    
+    func changeView() {
+        if notes.count == 0 {
+            delegate?.displayAnimationView()
+        } else {
+            delegate?.displayTableView()
+        }
+        delegate?.reloadTableView()
     }
     
     func calcTimeSince(date: Date) -> String {
@@ -76,31 +100,18 @@ extension NotesViewModel: NotesViewModelProtocol {
         }
     }
     
-    func save(title: String, description: String, date: Date) {
-        let model = AnnotationModel(title: title, descriptionNote: description, date: date, id: UUID())
-        guard let dataC = dataController.context else { return }
-        
-        dataController.saveAnnotation(model: model, context: dataC)
-        
-    }
-    
-    func edit(annotationOld: Notes, titleNew: String, descriptionNew: String) {
-        
-        guard let dataControllerContext = dataController.context else { return }
-        dataController.editAnnotation(
-            annotationOld: annotationOld,
-            titleNew: titleNew,
-            descriptionNew: descriptionNew,
-            context: dataControllerContext
-        )
-    }
-    
     func delete(annotation: Notes) {
         dataController.context?.delete(annotation)
         do {
             try dataController.context?.save()
+            delegate?.reloadTableView()
         } catch {
-            print(error)
+            viewController?.showAlert(title: "Atencao", message: "Erro ao deletar a nota")
         }
+    }
+    
+    func openNoteViewController(model: Notes?) {
+        let details = NoteViewController(model: model)
+        viewController?.navigationController?.pushViewController(details, animated: true)
     }
 }

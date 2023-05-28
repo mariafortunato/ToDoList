@@ -8,7 +8,7 @@ var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let view = NoteViewController()
+        let view = NotesViewController()
         let navigation = UINavigationController(rootViewController: view)
         
         window = UIWindow(frame: UIScreen.main.bounds)
