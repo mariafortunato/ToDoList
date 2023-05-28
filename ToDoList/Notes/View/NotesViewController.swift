@@ -98,7 +98,7 @@ private extension NotesViewController {
 @objc
 extension NotesViewController {
     func addNote() {
-        navigationController?.pushViewController(NoteViewController(), animated: false)
+        viewModel.openNoteViewController(model: nil)
     }
 }
 

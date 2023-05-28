@@ -80,6 +80,7 @@ extension NotesViewModel: NotesViewModelProtocol {
         } else {
             delegate?.displayTableView()
         }
+        delegate?.reloadTableView()
     }
     
     func calcTimeSince(date: Date) -> String {
@@ -99,18 +100,11 @@ extension NotesViewModel: NotesViewModelProtocol {
         }
     }
     
-    func save(title: String, description: String, date: Date) {
-        let model = AnnotationModel(title: title, descriptionNote: description, date: date, id: UUID())
-        guard let dataC = dataController.context else { return }
-        
-        dataController.saveAnnotation(model: model, context: dataC)
-        
-    }
-    
     func delete(annotation: Notes) {
         dataController.context?.delete(annotation)
         do {
             try dataController.context?.save()
+            delegate?.reloadTableView()
         } catch {
             viewController?.showAlert(title: "Atencao", message: "Erro ao deletar a nota")
         }

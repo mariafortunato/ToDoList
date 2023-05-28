@@ -117,34 +117,18 @@ extension NoteViewController {
     func save(title: String, description: String, date: Date) {
         viewModel?.save(title: title, description: description, date: date)
     }
-    
-    func returnScreen() {
-        navigationController?.popViewController(animated: false)
-    }
+
 }
 
 @objc
 private extension NoteViewController {
     private func buttonAction() {
-        guard let title = titleNote.textField.text,
-              let description = descriptionNote.textField.text
-        else { return }
-        
-        if button.titleLabel?.text == "Adicionar" {
-            if title == "" && description == "" {
-                showAlert(title: "Atenção", message: "Preencha todos os campos")
-            } else {
-                viewModel?.save(title: title, description: description, date: date)
-            }
-        } else {
-            guard let model = model else { return }
-            if title == "" && description == "" {
-                showAlert(title: "Atenção", message: "Preencha todos os campos")
-            } else {
-                viewModel?.edit(annotationOld: model, titleNew: title, descriptionNew: description)
-            }
-            
-        }
-        returnScreen()
+        viewModel?.buttonIsAdd(
+            model: model,
+            titleTF: titleNote.textField.text,
+            descriptionTF: descriptionNote.textField.text,
+            buttonName: button.titleLabel?.text
+        )
+        viewModel?.returnToScreen()
     }
 }
