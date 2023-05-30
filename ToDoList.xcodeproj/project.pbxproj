@@ -124,7 +124,6 @@
 				4CCFE0142A019000009DD49E /* Extension */,
 				4C8323512A1FD1BB0047CF10 /* Model */,
 				4CCFE0162A019064009DD49E /* View */,
-				4CCFE0102A018FB9009DD49E /* ViewModel */,
 				4CA4CEE7299861CB0000FA6E /* AppDelegate.swift */,
 				4CA4CEF3299861CC0000FA6E /* Assets.xcassets */,
 				4CA4CEF5299861CC0000FA6E /* LaunchScreen.storyboard */,
@@ -148,13 +147,6 @@
 				4C619E4929C1FD85007D22A4 /* LabelAndTextFieldView.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		4CCFE0102A018FB9009DD49E /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		4CCFE0132A018FDC009DD49E /* AnimationNoResults */ = {

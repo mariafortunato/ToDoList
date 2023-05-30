@@ -55,7 +55,6 @@ class NoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupFunctions()
-        setupScreen()
     }
     
     init(model: Notes? = nil) {
@@ -63,7 +62,7 @@ class NoteViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         titleNote.textField.text = model?.title
         descriptionNote.textField.text = model?.descriptionNote
-        viewModel = NoteViewModel(viewController: self)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -73,6 +72,8 @@ class NoteViewController: UIViewController {
 
 extension NoteViewController {
     func setupFunctions() {
+        configViewModel()
+        setupScreen()
         setupComponents()
         setupConstraints()
     }
@@ -95,23 +96,24 @@ extension NoteViewController {
         }
     }
     
-    func setupUIEdit() {
+    func configViewModel() {
+        viewModel = NoteViewModel(viewController: self)
+        viewModel?.delegate = self
+    }
+    
+    func UIEdit() {
         title = "Editar anotação"
         button.setTitle("Editar", for: .normal)
     }
     
-    func setupUIAdd() {
+    func UIAdd() {
         title = "Adicionar anotação"
         button.setTitle("Adicionar", for: .normal)
     }
     
     func setupScreen() {
         view.backgroundColor = UIColor(named: "Colorf2ecdc")
-        if titleNote.textField.text == "" {
-            setupUIAdd()
-        } else {
-            setupUIEdit()
-        }
+        viewModel?.screenPresent(text: titleNote.textField.text)
     }
     
     func save(title: String, description: String, date: Date) {
@@ -130,5 +132,15 @@ private extension NoteViewController {
             buttonName: button.titleLabel?.text
         )
         viewModel?.returnToScreen()
+    }
+}
+
+extension NoteViewController: NoteViewModelDelegate {
+    func setupUIEdit() {
+        UIEdit()
+    }
+    
+    func setupUIAdd() {
+        UIAdd()
     }
 }

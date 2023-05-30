@@ -3,24 +3,26 @@ import UIKit
 
 protocol NoteViewModelProtocol {
     var dataController: DataController { get }
+    var delegate: NoteViewModelDelegate? { get set }
     func edit(annotationOld: Notes, titleNew: String, descriptionNew: String)
     func save(title: String, description: String, date: Date)
     func returnToScreen()
-    func buttonIsAdd(
-        model: Notes?,
-        titleTF: String?,
-        descriptionTF: String?,
-        buttonName: String?
-    )
+    func buttonIsAdd(model: Notes?, titleTF: String?, descriptionTF: String?, buttonName: String?)
+    func screenPresent(text: String?)
+}
+
+protocol NoteViewModelDelegate: AnyObject {
+    func setupUIAdd()
+    func setupUIEdit()
 }
 
 class NoteViewModel {
     let dataController = DataController()
     private let date = Date()
-    
     private let note: Notes?
     
     weak var viewController: NoteViewController?
+    weak var delegate: NoteViewModelDelegate?
     
     init(
         viewController: NoteViewController?,
@@ -68,5 +70,13 @@ extension NoteViewModel: NoteViewModelProtocol {
     
     func returnToScreen() {
         viewController?.navigationController?.popViewController(animated: true)
+    }
+    
+    func screenPresent(text: String?) {
+        if text == "" {
+            delegate?.setupUIAdd()
+        } else {
+            delegate?.setupUIEdit()
+        }
     }
 }

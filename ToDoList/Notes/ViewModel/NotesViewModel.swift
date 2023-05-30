@@ -55,7 +55,7 @@ extension NotesViewModel: NotesViewModelProtocol {
         do {
             try fetchedResult.performFetch()
         } catch {
-            viewController?.showAlert(title: "Atencao", message: "Erro ao carregar a nota")
+            viewController?.showAlert(title: "Atenção", message: "Erro ao carregar a nota")
         }
     }
     
