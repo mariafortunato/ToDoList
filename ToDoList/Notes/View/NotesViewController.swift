@@ -111,7 +111,7 @@ extension NotesViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else { return UITableViewCell() }
         
         let model = viewModel.createCell(indexPath: indexPath)
-        cell.setupInformations(model: model)
+        cell.setupInformations(model: model, hour: viewModel.calcTimeSince(date: model.date))
         return cell
     }
 
